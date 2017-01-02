@@ -415,7 +415,7 @@ typedef NS_ENUM(NSUInteger, CoordinatorClassKind) {
 - (void)registerClass:(Class)cellClass nib:(UINib*)nib kind:(CoordinatorClassKind)kind {
   
 #if DEBUG
-    NSAssert(NO, @"CC: %@ not supported by CentralCellCoordinator", [self class]);
+    NSAssert(NO, @"CC: %@ not supported by CellCoordinator", [self class]);
 #endif
     
 }
@@ -423,43 +423,43 @@ typedef NS_ENUM(NSUInteger, CoordinatorClassKind) {
 - (void)ccReloadCellsForPaths:(NSArray <NSIndexPath *> *)paths animated:(BOOL)animated {
     
 #if DEBUG
-    NSAssert(NO, @"CC: %@ not supported by CentralCellCoordinator", [self class]);
+    NSAssert(NO, @"CC: %@ not supported by CellCoordinator", [self class]);
 #endif
     
 }
 
 - (void)_ccInsertRowsAtIndexPaths:(NSArray <NSIndexPath  *> *)indexPaths animated:(BOOL)animated {
 #if DEBUG
-    NSAssert(NO, @"CC: %@ not supported by CentralCellCoordinator", [self class]);
+    NSAssert(NO, @"CC: %@ not supported by CellCoordinator", [self class]);
 #endif
 }
 
 - (void)_ccDeleteSectionAtIndex:(NSInteger)sectionIndex animated:(BOOL)animated {
 #if DEBUG
-    NSAssert(NO, @"CC: %@ not supported by CentralCellCoordinator", [self class]);
+    NSAssert(NO, @"CC: %@ not supported by CellCoordinator", [self class]);
 #endif
 }
 
 - (void)_ccDeleteRowsAtIndexPaths:(NSArray <NSIndexPath  *> *)indexPaths animated:(BOOL)animated {
 #if DEBUG
-    NSAssert(NO, @"CC: %@ not supported by CentralCellCoordinator", [self class]);
+    NSAssert(NO, @"CC: %@ not supported by CellCoordinator", [self class]);
 #endif
 }
 
 - (void)_ccBatchUpdate:(void (^)())batchUpdateBlock {
 #if DEBUG
-    NSAssert(NO, @"CC: %@ not supported by CentralCellCoordinator", [self class]);
+    NSAssert(NO, @"CC: %@ not supported by CellCoordinator", [self class]);
 #endif
 }
 
 
 @end
 
-@interface UITableView (CentralCellCoordinator)
+@interface UITableView (CellCoordinator)
 
 @end
 
-@implementation UITableView (CentralCellCoordinator)
+@implementation UITableView (CellCoordinator)
 
 - (void)registerClass:(Class)cellClass nib:(UINib*)nib kind:(CoordinatorClassKind)kind {
     
@@ -526,11 +526,11 @@ typedef NS_ENUM(NSUInteger, CoordinatorClassKind) {
 @end
 
 
-@interface UICollectionView (CentralCellCoordinator)
+@interface UICollectionView (CellCoordinator)
 
 @end
 
-@implementation UICollectionView (CentralCellCoordinator)
+@implementation UICollectionView (CellCoordinator)
 
 
 - (void)registerClass:(Class)cellClass nib:(UINib*)nib kind:(CoordinatorClassKind)kind {

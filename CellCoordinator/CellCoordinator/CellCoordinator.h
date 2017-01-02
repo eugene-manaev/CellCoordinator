@@ -6,7 +6,7 @@
 #import "CCSource.h"
 #import "CCSection.h"
 #import "UIView+CC.h"
-#import "UIScrollView+CentralCellCoordinator.h"
+#import "UIScrollView+CC.h"
 
 
 #endif /* CellCoordinator */

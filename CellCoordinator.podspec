@@ -93,7 +93,7 @@ Pod::Spec.new do |s|
 
   s.source_files  = "CellCoordinator/CellCoordinator"
 
-  s.public_header_files = "CellCoordinator/CellCoordinator/CellCoordinator.h"
+  #s.public_header_files = "CellCoordinator/CellCoordinator/CellCoordinator.h"
 
 
   # ――― Resources ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #

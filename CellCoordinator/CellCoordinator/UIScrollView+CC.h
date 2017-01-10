@@ -5,23 +5,44 @@
 @interface UIScrollView (CellCoordinator)
 
 
+/**
+ Call in `-viewDidLoad` for example, to setup your `UITableView` / `UICollectionView` with Cell Coordinator
+ */
 - (void)ccInitializeWithDelegate:(id)delegate;
 
+
+/**
+ Closes last section of `UITableView` / `UICollectionView` and appends new one.
+ Leave it alone in case you want only single section, cause first section exists by default.
+ */
 - (void)ccBuildSection;
 
 
-// Getters
 
+/**
+ @return Array of currently presented sections
+ */
 - (NSMutableArray <CCSection *> *)ccSections;
 
+
+/**
+ @return Section at specified index
+ */
 - (CCSection *)ccSectionAtIndex:(NSUInteger)index ;
 
 - (CCSource *)ccSourceAtIndexPath:(NSIndexPath *)indexPath;
 
 /*
- Setters
+ Appends cell at the and of the last section and returns it's source
+ 
+ @param cellClass class of cell to initialize.
+ @param params ?
+ 
+ @discussion Your cell's class should override method described in `UIView+CC.h`
+ 
+ @return 
+ 
 */
-
 - (CCSource *)ccAppend:(Class)cellClass params:(NSMutableDictionary**)params;
 
 - (CCSource *)ccSetHeader:(Class)headerClass params:(NSMutableDictionary**)params;

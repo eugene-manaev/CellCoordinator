@@ -2,6 +2,11 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ `CCCManager` is for private usage inside `UIScrollView+CC`
+ Documentation will be soon.
+ */
+
 @interface CCManager : NSObject <UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource>
 
 - (instancetype)initWithTableView:(UITableView*)tableView delegate:(id)delegate;

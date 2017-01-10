@@ -260,7 +260,7 @@ typedef NS_ENUM(NSUInteger, CoordinatorClassKind) {
             
             CCSection *section = sections[indexPath.section];
             
-            if (section.count == 0) {   // In case section do not contain rows anymore
+            if (section.count == 0) {   // In case section don't contain rows anymore
                 
                 [sections removeObjectAtIndex:indexPath.section];  // Remove section remove CCSections
                 

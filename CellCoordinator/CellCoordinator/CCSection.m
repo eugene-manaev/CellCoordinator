@@ -13,9 +13,8 @@
 
 @property (nonatomic) NSMutableArray <CCSource *> *sources;
 
-
-
 @end
+
 
 @implementation CCSection
 
@@ -31,7 +30,6 @@
     return section;
 }
 
-// Setters
 
 - (CCSource*)appendCell:(Class)cellClass params:(NSMutableDictionary**)params {
     
@@ -77,8 +75,6 @@
     return cellSource;
 }
 
-// Getters
-
 
 - (NSUInteger)count {
     return _sources.count;
@@ -103,10 +99,8 @@
 - (CCSource*)sourceForFooter {
     
     return _footer;
-    
 }
 
-// Removers
 
 - (void)dropLastSource {
     

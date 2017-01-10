@@ -266,7 +266,7 @@
     
     
     if (footerSource == nil) {
-        return 0.000;
+        return 0.01;
     }
     
     return [footerSource sizeForScrollSize:tableView.frame.size].height;

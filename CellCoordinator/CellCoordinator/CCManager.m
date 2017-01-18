@@ -283,6 +283,23 @@
     
 }
 
+- (NSArray<NSString *> *)sectionIndexTitlesForTableView:(UITableView *)tableView {
+    
+    NSMutableArray <NSString *> *indexes = [NSMutableArray array];
+    
+    for (CCSection *section in [tableView ccSections]) {
+        
+        if (section.indexName != nil) {
+            [indexes addObject:section.indexName];
+        } else {
+            return nil;
+        }
+        
+    }
+    
+    return indexes;
+}
+
 #pragma mark -UICollectionView
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {

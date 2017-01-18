@@ -32,7 +32,7 @@
 
 - (CCSource *)ccSourceAtIndexPath:(NSIndexPath *)indexPath;
 
-/*
+/**
  Appends cell at the and of the last section and returns it's source
  
  @param cellClass class of cell to initialize.
@@ -48,6 +48,17 @@
 - (CCSource *)ccSetHeader:(Class)headerClass params:(NSMutableDictionary**)params;
 
 - (CCSource *)ccSetFooter:(Class)footerClass params:(NSMutableDictionary**)params;
+
+
+/**
+ Setts index to current section, to be displayed at the left side of the UITableView. (For UITableView only)
+ 
+ @param sectionIndexName will be displayed at the left side
+ 
+ @discussion Indexes are displaying only when indexName provided for every UITableView section
+ 
+ */
+- (void)ccSetSectionIndex:(NSString *)sectionIndexName;
 
 /*
  Inserts

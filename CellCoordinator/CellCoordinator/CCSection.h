@@ -107,4 +107,11 @@
  */
 - (void)dropLastSource;
 
+
+/**
+ Index of section to be displayed at UITableView's left side for fast-navigating.
+ */
+@property (nonatomic) NSString *indexName;
+
+
 @end

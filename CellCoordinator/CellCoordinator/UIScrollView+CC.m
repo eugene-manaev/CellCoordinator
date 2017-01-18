@@ -109,6 +109,11 @@ typedef NS_ENUM(NSUInteger, CoordinatorClassKind) {
     return [self ccAppendClass:footerClass params:params kind:CoordinatorClassFooter];
 }
 
+- (void)ccSetSectionIndex:(NSString *)sectionIndexName {
+    
+    [[[self ccSections] lastObject] setIndexName:sectionIndexName];
+}
+
 - (CCSource *)ccAppendClass:(Class)viewClass params:(NSMutableDictionary**)params kind:(CoordinatorClassKind)kind {
     
     [self ccRegisterCellClass:viewClass ofKind:kind];

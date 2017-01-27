@@ -18,6 +18,7 @@
 - (void)ccBuildSection;
 
 
+- (void)ccInsertSectionAtIndex:(NSInteger)sectionIndex animated:(BOOL)animated prepareSectionBlock:(void (^)())block;
 
 /**
  @return Array of currently presented sections

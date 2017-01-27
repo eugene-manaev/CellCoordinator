@@ -28,15 +28,62 @@ typedef NS_ENUM(NSUInteger, CoordinatorClassKind) {
 
 - (void)ccBuildSection {
     
+
+    NSMutableArray <CCSection *> *sections = [self ccSections];
+   
+    NSInteger indexOfEditingSection = [self editingSectionIndex];
+                                       
+    CCSection *targetSection;
+    
+    if (indexOfEditingSection == -1) {
+        targetSection = [sections lastObject];
+    } else {
+        targetSection = [self ccSectionAtIndex:indexOfEditingSection];
+    }
+    
+    if ([targetSection count] == 0) {
+        return;
+    }
+    
+    CCSection *section = [CCSection section];
+    
+    if (indexOfEditingSection == -1) {
+        [sections addObject:section];
+    } else {
+        [sections insertObject:section atIndex:indexOfEditingSection];
+    }
+
+    
+}
+
+- (void)ccInsertSectionAtIndex:(NSInteger)sectionIndex animated:(BOOL)animated prepareSectionBlock:(void (^)())block {
+    
+    if (block == nil) {
+        return;
+    }
+    
+    [self setEditingSectionIndex:sectionIndex];
+    
+    [self ccBuildSection];
+    
+    if (block != nil) {
+        block();
+    }
+    
+    // Здесь важно удалить section, если ничего не добавилось
+    
     NSMutableArray <CCSection *> *sections = [self ccSections];
     
-    if ([[sections lastObject] count] != 0) {
+    [self setEditingSectionIndex:-1];
+    
+    if ([[sections objectAtIndex:sectionIndex] count] == 0) {
         
-        CCSection *section = [CCSection section];
+        [sections removeObjectAtIndex:sectionIndex];
         
-        [sections addObject:section];
-        
+        return;
     }
+
+    [self _ccInsertSectionAtIndex:sectionIndex animated:animated];
     
 }
 
@@ -118,17 +165,25 @@ typedef NS_ENUM(NSUInteger, CoordinatorClassKind) {
     
     [self ccRegisterCellClass:viewClass ofKind:kind];
     
-    CCSection *lastSection = [[self ccSections] lastObject];
+    CCSection *targetSection;
+    
+    NSInteger indexOfEditingSection = [self editingSectionIndex];
+    
+    if (indexOfEditingSection == -1) {
+        targetSection = [[self ccSections] lastObject];
+    } else {
+        targetSection = [[self ccSections] objectAtIndex:indexOfEditingSection];
+    }
     
     switch (kind) {
         case CoordinatorClassCell:
-            return [lastSection appendCell:viewClass params:params];
+            return [targetSection appendCell:viewClass params:params];
     
         case CoordinatorClassHeader:
-            return [lastSection setHeader:viewClass params:params];
+            return [targetSection setHeader:viewClass params:params];
         
         case CoordinatorClassFooter:
-            return [lastSection setFooter:viewClass params:params];
+            return [targetSection setFooter:viewClass params:params];
             
         default:
             return nil;
@@ -415,6 +470,19 @@ typedef NS_ENUM(NSUInteger, CoordinatorClassKind) {
     
 }
 
+- (void)setEditingSectionIndex:(NSInteger)index {
+    
+    objc_setAssociatedObject(self, @selector(editingSectionIndex), @(index), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    
+}
+
+- (NSInteger)editingSectionIndex {
+    
+    NSNumber *index = objc_getAssociatedObject(self, _cmd);
+    
+    return index == nil ? -1 : [index integerValue];
+}
+
 // Helpers
 
 - (void)registerClass:(Class)cellClass nib:(UINib*)nib kind:(CoordinatorClassKind)kind {
@@ -434,6 +502,12 @@ typedef NS_ENUM(NSUInteger, CoordinatorClassKind) {
 }
 
 - (void)_ccInsertRowsAtIndexPaths:(NSArray <NSIndexPath  *> *)indexPaths animated:(BOOL)animated {
+#if DEBUG
+    NSAssert(NO, @"CC: %@ not supported by CellCoordinator", [self class]);
+#endif
+}
+
+- (void)_ccInsertSectionAtIndex:(NSInteger)index animated:(BOOL)animated {
 #if DEBUG
     NSAssert(NO, @"CC: %@ not supported by CellCoordinator", [self class]);
 #endif
@@ -503,6 +577,13 @@ typedef NS_ENUM(NSUInteger, CoordinatorClassKind) {
     UITableViewRowAnimation animation = animated ? UITableViewRowAnimationAutomatic : UITableViewRowAnimationNone;
     
     [self insertRowsAtIndexPaths:indexPaths withRowAnimation:animation];
+}
+
+- (void)_ccInsertSectionAtIndex:(NSInteger)index animated:(BOOL)animated {
+    
+    UITableViewRowAnimation *animation = animated ? UITableViewRowAnimationAutomatic : UITableViewRowAnimationNone;
+    
+    [self insertSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:animation];
 }
 
 - (void)_ccDeleteSectionAtIndex:(NSInteger)sectionIndex animated:(BOOL)animated {
@@ -599,6 +680,21 @@ typedef NS_ENUM(NSUInteger, CoordinatorClassKind) {
         }];
         
     }
+}
+
+- (void)_ccInsertSectionAtIndex:(NSInteger)index animated:(BOOL)animated {
+    
+    if (animated) {
+        
+        [self insertSections:[NSIndexSet indexSetWithIndex:index]];
+    } else {
+        
+        [UIView performWithoutAnimation:^{
+            [self insertSections:[NSIndexPath indexPathWithIndex:index]];
+        }];
+    }
+    
+    
 }
 
 - (void)_ccBatchUpdate:(void (^)())batchUpdateBlock {

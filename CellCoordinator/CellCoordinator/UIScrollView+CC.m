@@ -41,8 +41,10 @@ typedef NS_ENUM(NSUInteger, CoordinatorClassKind) {
         targetSection = [self ccSectionAtIndex:indexOfEditingSection];
     }
     
-    if ([targetSection count] == 0) {
-        return;
+    if (targetSection != nil) {
+        if ([targetSection count] == 0) {
+            return;
+        }
     }
     
     CCSection *section = [CCSection section];

@@ -18,6 +18,9 @@
 @property (nonatomic) BOOL callsWillDisplayCellforRowAtIndexPath;
 @property (nonatomic) BOOL callsDidEndDisplayingCellForRowAtIndexPath;
 
+// Collection
+@property (nonatomic) BOOL callsWillDisplaySupplementaryView;
+
 // Scroll
 
 @property (nonatomic) BOOL callsScrollViewDidScroll;
@@ -87,6 +90,8 @@
     self.callsScrollViewDidEndDragging = [delegate respondsToSelector:@selector(scrollViewDidEndDragging:willDecelerate:)];
     
     self.callsScrollViewDidEndScrollingAnimation = [delegate respondsToSelector:@selector(scrollViewDidEndScrollingAnimation:)];
+    
+    self.callsWillDisplaySupplementaryView = [delegate respondsToSelector:@selector(collectionView:willDisplaySupplementaryView:forElementKind:atIndexPath:)];
 
     
 }
@@ -390,6 +395,14 @@
     [view ccSetup];
     
     return view;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView willDisplaySupplementaryView:(UICollectionReusableView *)view forElementKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)indexPath {
+    
+    if (self.callsWillDisplaySupplementaryView) {
+        [self.delegate collectionView:collectionView willDisplaySupplementaryView:view forElementKind:elementKind atIndexPath:indexPath];
+    }
+    
 }
 
 

@@ -418,6 +418,10 @@ typedef NS_ENUM(NSUInteger, CoordinatorClassKind) {
 
 - (void)ccRegisterCellClass:(Class)cellClass ofKind:(CoordinatorClassKind)kind {
     
+    if (cellClass == nil) {
+        return;
+    }
+    
     if ([[self ccRegisteredCells] containsObject:cellClass]) {
         return;
     }

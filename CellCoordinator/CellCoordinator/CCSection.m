@@ -44,6 +44,12 @@
 
 - (CCSource*)setHeader:(Class)headerCalss params:(NSMutableDictionary**)params {
     
+    if (headerCalss == nil) {
+        _header = nil;
+        
+        return nil;
+    }
+    
     CCSource *headerSource = [CCSource sourceWithClass:headerCalss params:*params];
     
     _header = headerSource;
@@ -54,6 +60,13 @@
 }
 
 - (CCSource*)setFooter:(Class)footerClass params:(NSMutableDictionary**)params {
+    
+    if (footerClass == nil) {
+        
+        _footer = nil;
+        
+        return nil;
+    }
     
     CCSource *footerSource = [CCSource sourceWithClass:footerClass params:*params];
     

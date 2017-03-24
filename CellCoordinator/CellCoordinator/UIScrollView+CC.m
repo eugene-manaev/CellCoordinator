@@ -587,7 +587,7 @@ typedef NS_ENUM(NSUInteger, CoordinatorClassKind) {
 
 - (void)_ccInsertSectionAtIndex:(NSInteger)index animated:(BOOL)animated {
     
-    UITableViewRowAnimation *animation = animated ? UITableViewRowAnimationAutomatic : UITableViewRowAnimationNone;
+    UITableViewRowAnimation animation = animated ? UITableViewRowAnimationAutomatic : UITableViewRowAnimationNone;
     
     [self insertSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:animation];
 }
@@ -696,7 +696,7 @@ typedef NS_ENUM(NSUInteger, CoordinatorClassKind) {
     } else {
         
         [UIView performWithoutAnimation:^{
-            [self insertSections:[NSIndexPath indexPathWithIndex:index]];
+            [self insertSections:[NSIndexSet indexSetWithIndex:index]];
         }];
     }
     

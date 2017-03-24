@@ -8,6 +8,18 @@
 #import "CellCoordinator+Internal.h"
 
 
+BOOL isIOS7() {
+    
+    static int state = -1;
+    
+    if (state == -1) {
+        state = [[[UIDevice currentDevice] systemVersion] compare:@"8" options:NSNumericSearch] == NSOrderedAscending;
+    }
+    
+    return (state == 1);
+}
+
+
 
 @interface CCManager()
 
@@ -271,7 +283,13 @@
     
     
     if (footerSource == nil) {
-        return 0.01;
+        
+        if (isIOS7()) {
+            return 0.0;
+        } else {
+            return 0.01;
+        }
+
     }
     
     return [footerSource sizeForScrollSize:tableView.frame.size].height;
@@ -405,6 +423,7 @@
     
 }
 
-
-
 @end
+
+
+

@@ -53,11 +53,11 @@
     return [[[self ccSource] scrollView] ccIndexPathsForCells:@[self]].firstObject;
 }
 
-- (void)reloadAnimated:(BOOL)animated {
+- (void)ccReloadAnimated:(BOOL)animated {
     [[[self ccSource] scrollView] ccReloadCells:@[self] animated:animated];
 }
 
-- (void)removeAnimated:(BOOL)animated {
+- (void)ccRemoveAnimated:(BOOL)animated {
     [[[self ccSource] scrollView] ccDeleteRowsForCells:@[self] animated:animated];
 }
 

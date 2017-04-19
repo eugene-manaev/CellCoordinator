@@ -90,15 +90,15 @@
 
 /**
  @param animated YES for animated reload, NO for non-animated reload
- @discussion Use [self reloadAnimated:] inside cell to reload it. This way you don't need to interact with UITableView/UICollectionView itself.
+ @discussion Use [self ccReloadAnimated:] inside cell to reload it. This way you don't need to interact with UITableView/UICollectionView itself.
  */
-- (void)reloadAnimated:(BOOL)animated;
+- (void)ccReloadAnimated:(BOOL)animated;
 
 
 /**
  @param animated YES for animated remove, NO for non-animated
- @discussion Use [self removeAnimated:] inside cell to remove it. This way you don't need to interact with UITableView/UICollectionView itself.
+ @discussion Use [self ccRemoveAnimated:] inside cell to remove it. This way you don't need to interact with UITableView/UICollectionView itself.
  */
-- (void)removeAnimated:(BOOL)animated;
+- (void)ccRemoveAnimated:(BOOL)animated;
 
 @end

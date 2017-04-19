@@ -15,7 +15,7 @@
 /**
  @return The newly-initialized empty section.
  */
-+ (instancetype)section;
++ (instancetype)sectionForScrollView:(UIScrollView *)scrollView;
 
 
 ///---------------------

@@ -13,17 +13,20 @@
 
 @property (nonatomic) NSMutableArray <CCSource *> *sources;
 
+@property (nonatomic, weak) UIScrollView *scrollView;
+
 @end
 
 
 @implementation CCSection
 
-+ (instancetype)section {
++ (instancetype)sectionForScrollView:(UIScrollView *)scrollView {
     
     CCSection *section = [[self alloc] init];
     
     if (section != nil) {
         section.sources = [NSMutableArray array];
+        section.scrollView = scrollView;
     }
     
     
@@ -34,6 +37,8 @@
 - (CCSource*)appendCell:(Class)cellClass params:(NSMutableDictionary**)params {
     
     CCSource *cellSource = [CCSource sourceWithClass:cellClass params:*params];
+    
+    [cellSource setScrollView:self.scrollView];
     
     [_sources addObject:cellSource];
     
@@ -80,6 +85,8 @@
 - (CCSource*)insertCell:(Class)cellClass params:(NSMutableDictionary**)params atIndex:(NSInteger)index {
     
     CCSource *cellSource = [CCSource sourceWithClass:cellClass params:*params];
+    
+    [cellSource setScrollView:self.scrollView];
     
     [_sources insertObject:cellSource atIndex:index];
     

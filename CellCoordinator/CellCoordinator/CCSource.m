@@ -9,6 +9,8 @@ NSString *const kPreloadedCell = @"__cell";
 
 // Caching size
 
+@property (nonatomic, weak) UIScrollView *scrollView;
+
 @property (nonatomic) BOOL cacheAvailable;
 
 @property (nonatomic, strong) NSMutableDictionary *cache;

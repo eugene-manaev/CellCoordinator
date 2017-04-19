@@ -6,6 +6,7 @@
 #import "CCSection.h"
 #import "CCManager.h"
 #import "UIView+CC.h"
+#import "CellCoordinator+Internal.h"
 
 #import "UIScrollView+CC.h"
 
@@ -47,7 +48,7 @@ typedef NS_ENUM(NSUInteger, CoordinatorClassKind) {
         }
     }
     
-    CCSection *section = [CCSection section];
+    CCSection *section = [CCSection sectionForScrollView:self];
     
     if (indexOfEditingSection == -1) {
         [sections addObject:section];
@@ -113,7 +114,7 @@ typedef NS_ENUM(NSUInteger, CoordinatorClassKind) {
         
         sources = [NSMutableArray array];
         
-        [sources addObject:[CCSection section]];
+        [sources addObject:[CCSection sectionForScrollView:self]];
         
         objc_setAssociatedObject(self, _cmd, sources, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         
@@ -216,6 +217,13 @@ typedef NS_ENUM(NSUInteger, CoordinatorClassKind) {
     [self _ccInsertRowsAtIndexPaths:@[indexPath] animated:animated];
     
     return source;
+}
+
+- (NSArray <CCSource *> *)ccDeleteRowsForCells:(NSArray *)cells animated:(BOOL)animated {
+    
+    NSArray <NSIndexPath *> *indexPaths = [self ccIndexPathsForCells:cells];
+    
+    return [self ccDeleteRowsAtIndexPaths:indexPaths animated:animated];
 }
 
 - (NSArray <CCSource *> *)ccDeleteRowsAtIndexPaths:(NSArray <NSIndexPath  *> *)indexPaths animated:(BOOL)animated {
@@ -377,6 +385,14 @@ typedef NS_ENUM(NSUInteger, CoordinatorClassKind) {
     return paths;
 }
 
+- (void)ccReloadCells:(NSArray *)cells animated:(BOOL)animated {
+    
+    NSArray <NSIndexPath *> *indexPaths = [self ccIndexPathsForCells:cells];
+    
+    [self ccReloadCellsForPaths:indexPaths animated:animated];
+    
+}
+
 - (void)ccReloadCellsForClass:(Class)cellClass animated:(BOOL)animated {
     
     NSArray <NSIndexPath  *> *indexPaths = [self ccIndexPathsForCellClass:cellClass];
@@ -396,7 +412,7 @@ typedef NS_ENUM(NSUInteger, CoordinatorClassKind) {
     
     [[self ccSections] removeAllObjects];
     
-    CCSection *cleanSection = [CCSection section];
+    CCSection *cleanSection = [CCSection sectionForScrollView:self];
     
     [[self ccSections] addObject:cleanSection];
     
@@ -499,6 +515,15 @@ typedef NS_ENUM(NSUInteger, CoordinatorClassKind) {
     
 }
 
+- (NSArray <NSIndexPath *> *)ccIndexPathsForCells:(NSArray *)cells {
+    
+#if DEBUG
+    NSAssert(NO, @"CC: %@ not supported by CellCoordinator", [self class]);
+#endif
+    
+    return nil;
+}
+
 - (void)ccReloadCellsForPaths:(NSArray <NSIndexPath *> *)paths animated:(BOOL)animated {
     
 #if DEBUG
@@ -569,6 +594,31 @@ typedef NS_ENUM(NSUInteger, CoordinatorClassKind) {
         
     }
     
+}
+
+- (NSArray <NSIndexPath *> *)ccIndexPathsForCells:(NSArray *)cells {
+    
+    NSMutableArray <NSIndexPath *> *indexPaths = [NSMutableArray array];
+    
+    for (UITableViewCell *cell in cells) {
+        
+#if DEBUG
+        NSAssert([cell isKindOfClass:[UITableViewCell class]], @"CC: %@ got wrong \"cells\" argument, containing %@ which is not subclass of UITableViewCell",  NSStringFromSelector(_cmd), [cell class]);
+#endif
+      
+        NSIndexPath *indexPath = [self indexPathForCell:cell];
+        
+#if DEBUG
+        NSAssert(indexPath != nil, @"CC: indexPath for %@ not found. Probably that cell is not in target UITableView", cell);
+#endif
+        
+        if (indexPath != nil) {
+            [indexPaths addObject:indexPath];
+        }
+        
+    }
+    
+    return indexPaths;
 }
 
 - (void)ccReloadCellsForPaths:(NSArray <NSIndexPath *> *)paths animated:(BOOL)animated {
@@ -658,6 +708,30 @@ typedef NS_ENUM(NSUInteger, CoordinatorClassKind) {
         
     }
     
+}
+
+- (NSArray <NSIndexPath *> *)ccIndexPathsForCells:(NSArray *)cells {
+    
+    NSMutableArray <NSIndexPath *> *indexPaths = [NSMutableArray array];
+    
+    for (UICollectionViewCell *cell in cells) {
+        
+#if DEBUG
+        NSAssert([cell isKindOfClass:[UICollectionViewCell class]], @"CC: %@ got wrong \"cells\" argument, containing %@ which is not subclass of UICollectionViewCell", NSStringFromSelector(_cmd), [cell class]);
+#endif
+        
+        NSIndexPath *indexPath = [self indexPathForCell:cell];
+        
+#if DEBUG
+        NSAssert(indexPath != nil, @"CC: indexPath for %@ not found. Probably that cell is not in target UICollectionView", cell);
+#endif
+        
+        if (indexPath != nil) {
+            [indexPaths addObject:indexPath];
+        }
+    }
+    
+    return indexPaths;
 }
 
 - (void)ccReloadCellsForPaths:(NSArray <NSIndexPath *> *)paths animated:(BOOL)animated {

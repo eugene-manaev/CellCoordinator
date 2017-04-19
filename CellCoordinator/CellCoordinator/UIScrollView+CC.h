@@ -41,7 +41,7 @@
  
  @discussion Your cell's class should override method described in `UIView+CC.h`
  
- @return 
+ @return The newly-initialized `CCSource` of cell for specified arguments.
  
 */
 - (CCSource *)ccAppend:(Class)cellClass params:(NSMutableDictionary**)params;
@@ -71,6 +71,8 @@
  Deletes
  */
 
+- (NSArray <CCSource *> *)ccDeleteRowsForCells:(NSArray *)cells animated:(BOOL)animated;
+
 - (NSArray <CCSource *> *)ccDeleteRowsAtIndexPaths:(NSArray <NSIndexPath  *> *)indexPaths animated:(BOOL)animated;
 
 /*
@@ -78,6 +80,11 @@
  */
 
 - (NSMutableArray <NSIndexPath *> *)ccIndexPathsForCellClass:(Class)cellClass;
+
+
+- (NSArray <NSIndexPath *> *)ccIndexPathsForCells:(NSArray *)cells;
+
+- (void)ccReloadCells:(NSArray *)cells animated:(BOOL)animated;
 
 - (void)ccReloadCellsForClass:(Class)cellClass animated:(BOOL)animated;
 

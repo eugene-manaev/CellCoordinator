@@ -188,8 +188,6 @@ BOOL isIOS7() {
     
     [cell ccSetSource:cellSource];
     
-    [cell ccSetIndexPath:indexPath];
-    
     [cell ccSetup];
     
     return cell;
@@ -345,9 +343,7 @@ BOOL isIOS7() {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
     
     [cell ccSetSource:cellSource];
-    
-    [cell ccSetIndexPath:indexPath];
-    
+
     [cell ccSetup];
     
     return cell;

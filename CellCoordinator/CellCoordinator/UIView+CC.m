@@ -3,6 +3,8 @@
 #import "CCSource.h"
 #import <objc/runtime.h>
 #import "UIView+CC.h"
+#import "UIScrollView+CC.h"
+#import "CellCoordinator+Internal.h"
 
 #define ASSERTS_STRING @"You should override this method"
 
@@ -48,12 +50,15 @@
 }
 
 - (NSIndexPath *)ccIndexPath {
-    return objc_getAssociatedObject(self, @selector(ccIndexPath));
+    return [[[self ccSource] scrollView] ccIndexPathsForCells:@[self]].firstObject;
 }
 
-- (void)ccSetIndexPath:(NSIndexPath *)indexPath {
-    objc_setAssociatedObject(self, @selector(ccIndexPath), indexPath, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (void)reloadAnimated:(BOOL)animated {
+    [[[self ccSource] scrollView] ccReloadCells:@[self] animated:animated];
 }
 
+- (void)removeAnimated:(BOOL)animated {
+    [[[self ccSource] scrollView] ccDeleteRowsForCells:@[self] animated:animated];
+}
 
 @end

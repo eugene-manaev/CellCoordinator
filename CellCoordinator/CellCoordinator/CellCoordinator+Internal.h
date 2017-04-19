@@ -10,8 +10,6 @@
 
 - (void)ccSetSource:(CCSource *)source;
 
-- (void)ccSetIndexPath:(NSIndexPath *)indexPath;
-
 @end
 
 
@@ -22,6 +20,11 @@
 - (NSString *)reuseIdentifier;
 
 - (CGSize)sizeForScrollSize:(CGSize)size;
+
+
+- (UIScrollView *)scrollView;
+
+- (void)setScrollView:(UIScrollView *)scrollView;
 
 @end
 

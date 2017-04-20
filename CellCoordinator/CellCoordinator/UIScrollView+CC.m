@@ -359,6 +359,10 @@ typedef NS_ENUM(NSUInteger, CoordinatorClassKind) {
          [self _ccBatchUpdate:deleteBlock];
     }
     
+    if (self.ccSections.count == 0) {
+        [self ccBuildSection];
+    }
+    
     return removedSources;
 }
 

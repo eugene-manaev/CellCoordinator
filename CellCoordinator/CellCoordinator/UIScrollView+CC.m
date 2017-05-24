@@ -161,7 +161,18 @@ typedef NS_ENUM(NSUInteger, CoordinatorClassKind) {
 
 - (void)ccSetSectionIndex:(NSString *)sectionIndexName {
     
-    [[[self ccSections] lastObject] setIndexName:sectionIndexName];
+    NSInteger indexOfEditingSection = [self editingSectionIndex];
+    
+    CCSection *targetSection = nil;
+    
+    if (indexOfEditingSection == -1) {
+        targetSection = [[self ccSections] lastObject];
+    } else {
+        targetSection = [[self ccSections] objectAtIndex:indexOfEditingSection];
+    }
+    
+    [targetSection setIndexName:sectionIndexName];
+    
 }
 
 - (CCSource *)ccAppendClass:(Class)viewClass params:(NSMutableDictionary**)params kind:(CoordinatorClassKind)kind {
@@ -234,7 +245,7 @@ typedef NS_ENUM(NSUInteger, CoordinatorClassKind) {
     
     
     // Sort array, so we can go from the highest indexPaths to the lowest.
-    // Example: (3:1), (2:2), (2:0), (1:5), (0:0); where first number is a section and section is a row
+    // Example: (3:1), (2:2), (2:0), (1:5), (0:0); where first number is a section and second is a row
     
     NSArray <NSIndexPath  *> *indexPathsToRemove = [indexPaths sortedArrayUsingComparator:^NSComparisonResult(NSIndexPath *indexPath, NSIndexPath *anotherIndexPath) {
         
@@ -296,7 +307,7 @@ typedef NS_ENUM(NSUInteger, CoordinatorClassKind) {
         // tempIndexPaths stores temporary indexPaths across the section, to be remove later, when section will change
         __block NSMutableArray <NSIndexPath *> *tempIndexPaths = [NSMutableArray array];
         
-        // Stores previous section, to find out, when section did change
+        // Stores previous section's index, to find out, when section will change
         __block NSInteger previousSection = -1;
         
         // Block that deletes a pack of tempIndexPaths
@@ -330,7 +341,7 @@ typedef NS_ENUM(NSUInteger, CoordinatorClassKind) {
             
             CCSection *section = sections[indexPath.section];
             
-            if (section.count == 0 && sections.count > 1) {   // In case section don't contain rows anymore
+            if (section.count == 0 && sections.count > 1) {   // In case section doesn't contain rows anymore
                 
                 [sections removeObjectAtIndex:indexPath.section];  // Remove section remove CCSections
                 
@@ -415,14 +426,6 @@ typedef NS_ENUM(NSUInteger, CoordinatorClassKind) {
     CCSection *cleanSection = [CCSection sectionForScrollView:self];
     
     [[self ccSections] addObject:cleanSection];
-    
-}
-
-- (void)ccRemoveSourceAtIndex:(NSIndexPath *)indexPath {
-    
-    CCSection *section = [self ccSectionAtIndex:indexPath.section];
-    
-    [section.sources removeObjectAtIndex:indexPath.row];
     
 }
 
@@ -756,7 +759,7 @@ typedef NS_ENUM(NSUInteger, CoordinatorClassKind) {
         
         [UIView performWithoutAnimation:^{
            
-            [self reloadItemsAtIndexPaths:indexPaths];
+            [self insertItemsAtIndexPaths:indexPaths];
         }];
         
     }

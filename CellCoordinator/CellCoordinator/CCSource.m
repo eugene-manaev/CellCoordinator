@@ -44,6 +44,7 @@ NSString *const kPreloadedCell = @"__cell";
 - (NSString*)reuseIdentifier {
     // От этого мы не можем избавиться, пока у нас есть старая страничка агента. Она тянет за собой тему, что cellIdentifier может не соотвествовать cellClass
     return [_cellClass performSelector:@selector(ccReuseIdentifier)];
+   // return NSStringFromClass(_cellClass);
 }
 
 // Лучше не задумываться, что здесь написано. Оно просто работает.
@@ -75,32 +76,7 @@ NSString *const kPreloadedCell = @"__cell";
         
     }
     
-
-    
-    SEL sizeSelector = @selector(ccSizeForScrollSize:params:);
-    
-    NSMethodSignature *methodSign = [_cellClass methodSignatureForSelector:sizeSelector];
-    
-    NSInvocation *methodInvocation = [NSInvocation invocationWithMethodSignature:methodSign];
-    
-    methodInvocation.selector = sizeSelector;
-    
-    methodInvocation.target = _cellClass;
-    
-    // Set size as second param
-    
-    [methodInvocation setArgument:&size atIndex:2];
-    
-  
-    [methodInvocation setArgument:&_params atIndex:3];
-    
-    // go for it!
-    [methodInvocation invoke];
-    
-    CGSize cellSize;
-    
-    [methodInvocation getReturnValue:&cellSize];
-    
+    CGSize cellSize = [_cellClass ccSizeForScrollSize:size params:self.params];
     
     
     // Save new value to cache

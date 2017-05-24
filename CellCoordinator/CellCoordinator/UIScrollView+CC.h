@@ -18,6 +18,14 @@
 - (void)ccBuildSection;
 
 
+/**
+ Inserts section into your `UITableView` / `UICollectionView`
+ 
+ @param sectionIndex index for section be inserted at
+ @param animated enable inserting animation
+ @param block block of code to perform ccAppend:... / ccSetHeader:... / ccSetFooter:... methods to be immediately applied to the section that you are inserting
+ 
+ */
 - (void)ccInsertSectionAtIndex:(NSInteger)sectionIndex animated:(BOOL)animated prepareSectionBlock:(void (^)())block;
 
 /**
@@ -34,10 +42,10 @@
 - (CCSource *)ccSourceAtIndexPath:(NSIndexPath *)indexPath;
 
 /**
- Appends cell at the and of the last section and returns it's source
+ Appends cell at the end of the last section and returns it's source
  
  @param cellClass class of cell to initialize.
- @param params ?
+ @param params params for cell to be initialized with
  
  @discussion Your cell's class should override method described in `UIView+CC.h`
  
@@ -92,8 +100,6 @@
 
 
 - (void)ccDrop;
-
-- (void)ccRemoveSourceAtIndex:(NSIndexPath *)indexPath;
 
 - (void)ccDropLastSource;
 

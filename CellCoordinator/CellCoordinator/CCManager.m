@@ -32,6 +32,7 @@ BOOL isIOS7() {
 
 // Collection
 @property (nonatomic) BOOL callsWillDisplaySupplementaryView;
+@property (nonatomic) BOOL callsWillDisplayCellForItemAtIndexPath;
 
 // Scroll
 
@@ -105,7 +106,7 @@ BOOL isIOS7() {
     
     self.callsWillDisplaySupplementaryView = [delegate respondsToSelector:@selector(collectionView:willDisplaySupplementaryView:forElementKind:atIndexPath:)];
 
-    
+    self.callsWillDisplayCellForItemAtIndexPath = [delegate respondsToSelector:@selector(collectionView:willDisplayCell:forItemAtIndexPath:)];
 }
 
 #pragma mark -UIScrollView
@@ -417,6 +418,14 @@ BOOL isIOS7() {
         [self.delegate collectionView:collectionView willDisplaySupplementaryView:view forElementKind:elementKind atIndexPath:indexPath];
     }
     
+}
+
+- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (self.callsWillDisplayCellForItemAtIndexPath) {
+        [self.delegate collectionView:collectionView willDisplayCell:cell forItemAtIndexPath:indexPath];
+        
+    }
 }
 
 @end
